@@ -1,0 +1,9 @@
+# تعريف الخادم
+server:
+  host: "localhost"
+  port: 8000
+
+# كلمة الس لقاعدة البيانات
+database:
+  user: "مدير"
+  pass: "كلمة سر"

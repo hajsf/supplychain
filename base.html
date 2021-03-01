@@ -1,0 +1,91 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script>
+    function setLanguage(lang) {
+        document.cookie = "language="+lang;
+        location.reload();
+    }
+    function switchLanguage() {
+        if (getCookie("language") === "en") {
+            setLanguage("ar")
+        } else {
+            setLanguage("en")
+        }
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    </script>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+        }
+        img {
+            padding: 10px;
+            color: aqua;
+        }
+        nav {
+            background-color: #333;
+            margin: 0;
+            overflow: hidden;
+        }
+        nav ul{
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            /* This allow us to arrange list items in a row, without using float */
+            display: inline-block;
+            list-style-type: none;
+        }
+        
+        /* Create a style for the first level items */
+        nav > ul > li > a {
+            color: #aaa;
+            background-color:#333;
+            display: block;
+            line-height: 2em;
+            padding: 0.5em 0.5em;
+            text-decoration: none;
+        }
+    </style>
+<body>
+    <nav>
+        <ul>
+            <li><img src="static/images/ar-en.png" width="30" height="30" onclick="switchLanguage()"></li>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="news.html">News</a></li>
+        </ul>
+    </nav>
+    <a href="#" onclick="setLanguage('en')">English</a> 
+    <a href="#" onclick="setLanguage('ar')">عربي</a>
+    <br/>
+
+    {{template "content" .}}
+
+    {{$number := .}}
+
+    <br/>
+    footer...
+
+</body>
+</html>
+{{end}}
