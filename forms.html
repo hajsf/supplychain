@@ -1,0 +1,158 @@
+<title>Form Submittal</title>
+<style>
+  body {
+      font-family: Ubuntu, "times new roman", times, roman, serif;
+      font-family: Almarai, "times new roman", times, roman, serif;
+      background-image: url("ubuntu.jpg"); /* The image used */
+      color: white; /* Text color */
+      background-color: #772953; /* Used if the image is unavailable */
+      height: 500px; /* You must set a specified height */
+      background-position: center; /* Center the image */
+      background-repeat: no-repeat; /* Do not repeat the image */
+      background-size: cover; /* Resize the background image to cover the entire container */
+  }
+  form  { display: table;      }
+  fieldset    { display: table-row;  }
+  textarea    { display: table-row;  width:100%;}
+</style>
+<link href="http://localhost:8090/static/fontawesome-free-5.15.2-web/css/all.css" rel="stylesheet"> <!--load all styles -->
+<!-- link rel="stylesheet" href="http://localhost:8090/styles/MaterialDesign-Webfont-master/css/materialdesignicons.min.css" -->
+
+<script>
+  //import { mdi-home } from '/MaterialDesign-JS-master/mdi.js';
+  function deleteRow(row) {
+    var i = row.parentNode.parentNode.rowIndex - 2; // this -> td -> tr // -2 because the first 2 rows are used for header
+    var tbl = document.querySelector('tbody');
+    if(tbl && tbl.rows.length > 1) {
+      tbl.deleteRow(i); 
+      Array.from(tbl.rows).forEach((row, index) => {
+        row.cells[0].innerHTML = index + 1;
+      });
+    }
+  } 
+
+  function insRow(row) {
+    var i = row.parentNode.parentNode.rowIndex - 2; // this -> td -> tr // -2 because the first 2 rows are used for header
+    var tbl = document.querySelector('tbody');
+    var row = document.createElement('tr');
+    row.innerHTML=`
+      <th></th>
+      <td><input size=25 type="text" name="color1" /></td>
+      <td><input size=25 type="text" name="color2" ></td>
+      <td><i class="fas fa-edit" onclick="insRow(this)"></i></td>
+      <td><i class="fas fa-eraser" onclick="deleteRow(this)"></i></td>
+    `;
+    var len = tbl.rows.length;
+    row.cells[0].innerHTML = len + 1;
+    tbl.insertBefore(row, tbl.children[i+1]);
+    Array.from(tbl.rows).forEach((row, index) => {
+      row.cells[0].innerHTML = index + 1;
+    });
+    //tbl.appendChild(row);
+  }
+</script>
+<html dir="rtl" lang="ar">
+<h1>طلب دفع بيان جمركي <span dir="ltr" lang="en">Bayan Request form</span></h1>
+
+<form dir="rtl" lang="ar" method="POST">
+  <fieldset>
+    <legend>بيانات البيان الجمركي العامة <span dir="ltr" lang="en">Bayan Info</span></legend>
+    <table>
+      <tr>
+        <td><label>رقم البيان الجمركي</label></td>
+        <td><input type="text" name="email"></td>
+        <td dir="ltr" lang="en"><label>Bayan number</label></td>
+        <td><label>تاريخ البيان الجمركي</label></td>
+        <td><input type="date" id="birthday" name="birthday"></td>
+        <td dir="ltr" lang="en"><label>Bayan date</label></td>
+      </tr>
+      <tr>
+        <td><label>رقم الشحنه المرجعي</label></td>
+        <td><input type="text" name="subject"></td>
+        <td dir="ltr" lang="en"><label>Shipment reference</label></td>
+        <td><label>الرقم الموحد</label></td>
+        <td><input type="text" name="subject"></td>
+        <td dir="ltr" lang="en"><label>SADAD number</label></td>
+    </tr>
+  </table>
+  </fieldset>
+  <fieldset>
+    <legend>تفاصيل مبالغ البيان الجمركي <span dir="ltr" lang="en">Bayan fees</span></legend>
+    <table>
+      <tr>
+        <td><label>الرسوم الجمركية</label></td>
+        <td><input type="text" name="subject"></td>
+        <td dir="ltr" lang="en"><label>Custom duty</label></td>
+        <td><label>ضريبة القيمة المضافة</label></td>
+        <td><input type="text" name="subject"></td>
+        <td dir="ltr" lang="en"><label>VAT</label></td>
+      </tr>
+      <tr>
+        <td><label>الضريبة الانتقائية</label></td>
+        <td><input type="text" name="subject"></td>
+        <td dir="ltr" lang="en"><label>TAX</label></td>
+        <td><label>رسوم المناولة</label></td>
+        <td><input type="text" name="subject"></td>
+        <td dir="ltr" lang="en"><label>Handling fees</label></td>
+      </tr>
+      <tr>
+        <td><label>رسوم الأرضيات</label></td>
+        <td><input type="text" name="subject"></td>
+        <td dir="ltr" lang="en"><label>Demurage</label></td>
+        <td><label>رسوم أخرى</label></td>
+        <td><input type="text" name="subject"></td>
+        <td dir="ltr" lang="en"><label>Other fees</label></td>
+      </tr>
+  </table>
+  </fieldset>
+  <fieldset>
+    <legend>ملاحظات عامة على البيان الجمركي <span dir="ltr" lang="en">Notes</span></legend>
+    <textarea name="message"></textarea>
+  </fieldset>
+  <fieldset>
+    <legend>توزيع مبلغ البيان على طلبات الشراء <span dir="ltr" lang="en">Bayan distribution</span></legend>
+    <table>
+      <thead>
+        <tr>
+          <th>التسلسل</td>
+          <th>رقم طلب الشراء</td>
+          <th>قيمة فاتورة طلب الشراء</td>
+          <th colspan="2">إضافه/حذف</td>
+        </tr>
+        <tr dir="ltr" lang="en">
+          <th>SN</td>
+          <th>PO number</td>
+          <th>PO value</td>
+          <th colspan="2">Action</td>
+        </tr>
+      </thead>
+      <tbody >
+        <tr>
+          <th>1</th>
+          <td><input size=25 type="text" name="color1" /></td>
+          <td><input size=25 type="text" name="color2" /></td>
+          <td colspan="2"><i class="fas fa-edit" onclick="insRow(this)"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </fieldset>
+   <input dir="ltr" type="submit" value="SEND إرسال">
+</form>
+{{with .}}
+  {{if .Result}}
+    <div id='foo'>
+      <i class="far fa-thumbs-up"></i>If report not opened automatically, pls download from <a href={{.Message}}>here</a>
+    </div>
+    <script>
+      url = `{{.Message}}`
+      window.open(url, "_blank");
+      setTimeout(function () {document.querySelector('#foo').style.display='none'}, 5000);
+    </script>
+  {{else}}
+    <i class="fas fa-exclamation-triangle">{{.Message}}</i>>
+    <script>
+      setTimeout(function () {document.querySelector('#foo').style.display='none'}, 5000);
+    </script>
+  {{end}}
+{{end}}
+</html>

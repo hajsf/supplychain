@@ -1,0 +1,44 @@
+<script>
+    var language; 
+    function getLanguage() {
+        (localStorage.getItem('language') == null) ? setLanguage('en') : false;
+
+        fetch('http://localhost:8090/static/language/' +  localStorage.getItem('language') + '.json')
+        .then(
+            function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' +
+                response.status);
+                return;
+            }
+            
+            // Examine the text in the response
+            response.json().then(function(data) {
+                language = data;
+                onLanguageChange(data.save);
+                 // load template from the Golang
+               // alert(data.save)
+            }); 
+            }
+        )
+        .catch(function(err) {
+            console.log('Fetch Error :-S', err);
+        });
+    }
+        
+    function setLanguage(lang) {
+        localStorage.setItem('language', lang);
+        getLanguage();
+    }
+</script>
+<body onload="loadpage()">
+<a href="#" onclick="setLanguage('en')">English</a> 
+<a href="#" onclick="setLanguage('ar')">عربي</a>
+
+<div id="div1"></div>
+<script>
+    function loadpage() {
+        document.querySelector('#div1').innerHTML = language.save;
+    }
+</script>
+</body>

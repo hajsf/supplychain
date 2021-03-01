@@ -1,0 +1,38 @@
+html, body {
+  width: max-content;
+}
+table {
+max-width:980px;
+table-layout:fixed;
+margin:auto;
+}
+th, td {
+padding:5px 10px;
+border:1px solid #000;
+}
+thead, tfoot {
+background:#f9f9f9;
+display:table;
+width:100%;
+width:calc(100% - 8px);
+}
+tbody {
+height:50px;
+overflow:auto;
+overflow-x:hidden;
+display:block;
+width:100%;
+}
+tbody tr {
+display:table;
+table-layout:fixed;
+}
+
+th:first-of-type { width: 30px; }
+
+th {
+background: lightblue;
+border-color: white;
+}
+
+#latbox {width: 100px;}
